@@ -1,3 +1,4 @@
+from urllib.parse import quote
 import gc, time, textwrap, wave, csv
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageOps 
@@ -269,6 +270,8 @@ EXAMPLES = [
 
 FEEDBACK_FILE = Path("feedback.csv")
 
+ISSUES_NEW = "https://github.com/Ankita562/ofrenda-of-maybe/issues/new"
+
 def save_feedback(rating, comment):
     comment = (comment or "").strip()
     if not rating and not comment:
@@ -279,7 +282,10 @@ def save_feedback(rating, comment):
         if new:
             w.writerow(["time", "rating", "comment"])
         w.writerow([time.strftime("%Y-%m-%d %H:%M:%S"), rating or "", comment])
-    return "🕯️ Thank you! Your note was saved on this laptop.", ""
+    body = f"Mood: {rating or '-'}\n\n{comment}"
+    link = f"{ISSUES_NEW}?title={quote('Feedback: ' + (rating or 'note'))}&body={quote(body)}"
+    return (f"🕯️ Saved on this laptop. Want the author to see it? "
+            f"[Post it as a GitHub issue]({link})"), ""
 
 with gr.Blocks(title="🎃 Ofrenda of Maybe") as demo:
     gr.HTML(DECOR_HTML)
