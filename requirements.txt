@@ -1,0 +1,9 @@
+diffusers
+transformers
+accelerate
+gradio
+moviepy
+ollama
+piper-tts
+pillow
+numpy

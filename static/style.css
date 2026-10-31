@@ -1,0 +1,97 @@
+/* Ofrenda of Maybe: Halloween theme.
+   Fonts are system fonts only, so nothing loads from the internet (works offline). */
+
+.gradio-container {
+  background: radial-gradient(circle at 50% 0%, #3a1a52 0%, #150b25 55%, #07040f 100%) !important;
+  font-family: "Ink Free", "Segoe Script", "Comic Sans MS", cursive !important;
+}
+
+/* Header */
+.hdr { text-align: center; padding: 6px 0 0; }
+.pumpkin { font-size: 64px; animation: bob 2.4s ease-in-out infinite; filter: drop-shadow(0 0 18px rgba(255, 122, 24, .85)); }
+.ttl {
+  font-family: "Chiller", "Jokerman", "Ink Free", fantasy !important;
+  font-size: clamp(44px, 7vw, 86px) !important;
+  color: #ff9a3c !important;
+  margin: 0 !important;
+  animation: flicker 3s infinite;
+  letter-spacing: 2px;
+}
+.sub { color: #e9d8ff; font-size: 1.15rem; margin: 4px 0 6px; }
+.bones { font-size: 26px; letter-spacing: 8px; opacity: .85; }
+.foot { text-align: center; color: #b9a6d6; margin-top: 14px; font-size: 1rem; }
+
+/* Input "tombstone" */
+#wish textarea {
+  background: #140d22 !important;
+  color: #ffd9a0 !important;
+  border: 2px solid #ff7a18 !important;
+  border-radius: 34px 34px 8px 8px !important;
+  font-family: "Ink Free", "Segoe Script", cursive !important;
+  font-size: 1.2rem !important;
+  box-shadow: 0 0 18px rgba(255, 122, 24, .45), inset 0 0 22px rgba(0, 0, 0, .7) !important;
+  padding: 18px !important;
+}
+#wish textarea:focus { box-shadow: 0 0 30px rgba(255, 122, 24, .9), inset 0 0 22px rgba(0, 0, 0, .7) !important; }
+
+/* Button, comic, film, offering */
+#go {
+  background: linear-gradient(90deg, #e8590c, #ff9a3c) !important;
+  color: #1b0b00 !important;
+  font-weight: 700 !important;
+  font-size: 1.2rem !important;
+  animation: pulse 2s infinite;
+  border: none !important;
+}
+#film, #comic {
+  border: 2px solid #ff7a18 !important;
+  border-radius: 14px !important;
+  box-shadow: 0 0 28px rgba(255, 122, 24, .5);
+}
+#offering textarea {
+  background: #1d1233 !important;
+  color: #ffd9a0 !important;
+  border: 1px dashed #ff9a3c !important;
+  font-size: 1.15rem !important;
+}
+
+/* Decorations */
+.web { position: fixed; z-index: 3; pointer-events: none; }
+.web.tl { top: 0; left: 0; }
+.web.tr { top: 0; right: 0; transform: scaleX(-1); }
+.web.bl { bottom: 0; left: 0; transform: scaleY(-1); }
+.web.br { bottom: 0; right: 0; transform: scale(-1, -1); }
+.spider { position: fixed; top: 0; right: 14%; z-index: 3; pointer-events: none; transform-origin: top center; animation: dangle 4s ease-in-out infinite; }
+.thread { width: 2px; height: 90px; background: #cfc8e6; margin: 0 auto; }
+.spider span { font-size: 34px; display: block; }
+.ghost { position: fixed; font-size: 44px; opacity: .45; pointer-events: none; z-index: 3; animation: float 9s ease-in-out infinite; }
+.g1 { left: 5%; top: 30%; }
+.g2 { right: 4%; top: 58%; animation-delay: -3s; }
+.g3 { left: 11%; bottom: 8%; animation-delay: -6s; }
+
+/* Jump scare overlay (created by scare.js) */
+#scare { position: fixed; inset: 0; z-index: 99999; display: none; align-items: center; justify-content: center; background: rgba(0, 0, 0, .88); pointer-events: none; }
+#scare.on { display: flex; animation: flash .9s ease-out; }
+#scare span { font-size: min(60vw, 60vh); filter: drop-shadow(0 0 40px #fff); animation: pop .9s ease-out; }
+
+/* Animations */
+@keyframes bob { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
+@keyframes flicker {
+  0%, 100% { text-shadow: 0 0 18px #ff7a18, 0 0 40px #ff4d00 }
+  45% { text-shadow: 0 0 6px #ff7a18 }
+  50% { text-shadow: 0 0 28px #ffb347, 0 0 60px #ff4d00 }
+}
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 8px rgba(255, 122, 24, .6) } 50% { box-shadow: 0 0 26px rgba(255, 154, 60, 1) } }
+@keyframes dangle { 0%, 100% { transform: rotate(-7deg) } 50% { transform: rotate(7deg) } }
+@keyframes float { 0%, 100% { transform: translateY(0) translateX(0) } 50% { transform: translateY(-40px) translateX(18px) } }
+@keyframes flash { 0% { background: rgba(255, 0, 0, .95) } 100% { background: rgba(0, 0, 0, .88) } }
+@keyframes pop {
+  0% { transform: scale(.2) rotate(-10deg) }
+  20% { transform: scale(1.1) rotate(4deg) }
+  35% { transform: translateX(-14px) }
+  50% { transform: translateX(14px) }
+  100% { transform: scale(1.05) }
+}
+
+/* Respect "reduce motion" system setting */
+@media (prefers-reduced-motion: reduce) { * { animation: none !important } }
