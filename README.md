@@ -29,6 +29,7 @@ Scenes 1-3 tell your wish as a cheerful story. Scene 4 is the **ghost**: your fu
 - 🎙️ 4 narrator voices (storyteller, cheerful, British, ghostly whisper)
 - 👻 Halloween UI: cobwebs, a dangling spider, floating ghosts, a flickering title
 - 😱 A ghost may pop out while you type. Turn it off (and the scream) in **⚙️ Settings**. It also stays off if your system asks for reduced motion.
+- 💌 A feedback box. Notes are saved to `feedback.csv` on your own machine and never uploaded.
 
 ## Run it
 

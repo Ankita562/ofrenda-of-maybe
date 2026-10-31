@@ -224,3 +224,4 @@ voices/
 *.mp4
 *.wav
 .gradio/
+feedback.csv

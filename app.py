@@ -1,4 +1,4 @@
-import gc, time, textwrap, wave
+import gc, time, textwrap, wave, csv
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageOps 
 import ollama, torch, gradio as gr
@@ -267,6 +267,20 @@ EXAMPLES = [
     ["I run a small bakery and it is famous for its pastries."],
 ]
 
+FEEDBACK_FILE = Path("feedback.csv")
+
+def save_feedback(rating, comment):
+    comment = (comment or "").strip()
+    if not rating and not comment:
+        return "👻 Pick a mood or leave a note first.", comment
+    new = not FEEDBACK_FILE.exists()
+    with open(FEEDBACK_FILE, "a", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        if new:
+            w.writerow(["time", "rating", "comment"])
+        w.writerow([time.strftime("%Y-%m-%d %H:%M:%S"), rating or "", comment])
+    return "🕯️ Thank you! Your note was saved on this laptop.", ""
+
 with gr.Blocks(title="🎃 Ofrenda of Maybe") as demo:
     gr.HTML(DECOR_HTML)
     gr.HTML(HEADER_HTML)
@@ -288,8 +302,18 @@ with gr.Blocks(title="🎃 Ofrenda of Maybe") as demo:
                     film = gr.Video(label="Your ofrenda", elem_id="film")
             offering = gr.Textbox(label="🕯️ The ghost's offering: your first small step",
                                   lines=2, elem_id="offering", interactive=False)
+            with gr.Accordion("💌 Leave a note for the ghost", open=True):
+                rating = gr.Radio(["😍 Loved it", "🙂 Good", "😐 Meh", "👻 Too spooky"],
+                                  label="How did it feel?", elem_id="rating")
+                note = gr.Textbox(label="Anything to improve?", lines=2, elem_id="note",
+                                  placeholder="A scene that looked odd? An idea for the ghost?")
+                send = gr.Button("🕯️ Send to the ghost", elem_id="send")
+                status = gr.Markdown("")
+                gr.HTML('<div class="issues">Found a bug or have an idea? '
+                        '<a href="https://github.com/Ankita562/ofrenda-of-maybe/issues" target="_blank">Open an issue on GitHub</a></div>')
     gr.HTML(FOOTER_HTML)
     go.click(generate, [wish, voice], [film, comic, offering])
+    send.click(save_feedback, [rating, note], [status, note])
     demo.load(None, None, None, js=JS)
 
 if __name__ == "__main__":

@@ -6,6 +6,10 @@
   font-family: "Ink Free", "Segoe Script", "Comic Sans MS", cursive !important;
 }
 
+#note textarea { background: #1d1233 !important; color: #ffd9a0 !important; border: 1px dashed #ff9a3c !important; font-size: 1.1rem !important; }
+#send { background: #2b1a3d !important; color: #ffb347 !important; border: 1px solid #ff7a18 !important; }
+.issues { color: #b9a6d6; font-size: .95rem; margin-top: 6px; }
+.issues a { color: #ff9a3c; }
 /* Header */
 .hdr { text-align: center; padding: 6px 0 0; }
 .pumpkin { font-size: 64px; animation: bob 2.4s ease-in-out infinite; filter: drop-shadow(0 0 18px rgba(255, 122, 24, .85)); }
