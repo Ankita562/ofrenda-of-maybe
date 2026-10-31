@@ -19,8 +19,8 @@ OUT = Path("outputs"); OUT.mkdir(exist_ok=True)
 SIZE = 768
 
 STYLE_FUN = ", colorful storybook illustration, warm golden light, cheerful, detailed"
-STYLE_GHOST = ", colorful storybook illustration, small friendly glowing ghost, floating marigold petals, warm candlelight, magical"
-
+GHOST_PREFIX = "a cute friendly glowing white ghost with big eyes floating among marigold petals, "
+STYLE_GHOST = ", colorful storybook illustration, warm candlelight, magical, detailed"
 VOICES = {  # name: (piper voice file, length_scale; higher = slower)
     "Warm storyteller": ("en_US-lessac-medium", 1.0),
     "Cheerful": ("en_US-amy-medium", 0.95),
@@ -32,6 +32,7 @@ SYSTEM = """You turn a user's imagined future into a short, fun 4-scene storyboo
 Scenes 1 to 3 tell the wish step by step in a cheerful way (the start, the main moment, a happy detail).
 Scene 4 is a light ghost touch: a small friendly ghost appears in the same setting, and its narration begins with "I remember when you" and is a warm, short message about the wish.
 Rules:
+- Do not invent names for businesses, people or places. Use only what the user wrote.
 - Stay literal to the wish. Every image_prompt must name the main subject from the wish (the bakery, the pastries, the customers, etc).
 - image_prompt: under 20 words, concrete, starting with the main subject and setting. No abstract ideas. No rain or darkness.
 - For scene 4's image_prompt, keep the same setting and add "with a small friendly ghost".
@@ -70,9 +71,12 @@ def make_images(scenes, workdir):
         _pipe.enable_model_cpu_offload()
     paths = []
     for i, s in enumerate(scenes):
-        style = STYLE_GHOST if i == len(scenes) - 1 else STYLE_FUN
         g = torch.Generator("cpu").manual_seed(1234 + i)
-        img = _pipe(s.image_prompt + style, num_inference_steps=2, guidance_scale=0.0,
+        if i == len(scenes) - 1:
+            prompt = GHOST_PREFIX + s.image_prompt.replace("with a small friendly ghost", "") + STYLE_GHOST
+        else:
+            prompt = s.image_prompt + STYLE_FUN
+        img = _pipe(prompt, num_inference_steps=2, guidance_scale=0.0,
                     height=512, width=512, generator=g).images[0]
         p = workdir / f"scene{i}.png"
         img.save(p)
@@ -146,7 +150,12 @@ def generate(wish, voice_name, progress=gr.Progress()):
     out = run / "ofrenda.mp4"
     build_video(scenes, imgs, run, out, voice_name)
     return str(out)
-
+CSS = """
+.gradio-container {background: radial-gradient(circle at top, #2b1a3d 0%, #0e0a1a 70%) !important;}
+h1 {color: #ffb347 !important; text-shadow: 0 0 18px rgba(255,160,40,.6);}
+button.primary {background: #e8590c !important;}
+"""
+THEME = gr.themes.Base(primary_hue="orange", neutral_hue="slate")
 demo = gr.Interface(
     fn=generate,
     inputs=[
@@ -155,10 +164,10 @@ demo = gr.Interface(
         gr.Dropdown(list(VOICES), value="Warm storyteller", label="Narrator voice"),
     ],
     outputs=gr.Video(label="Your ofrenda"),
-    title="Ofrenda of Maybe",
+    title="🕯️ Ofrenda of Maybe",
     description="Describe a future you hope for. A friendly ghost from that future turns it into a short film. Runs entirely on this laptop with open models.",
     flagging_mode="never",
 )
 
 if __name__ == "__main__":
-    demo.launch(allowed_paths=[str(OUT.resolve())])
+    demo.launch(allowed_paths=[str(OUT.resolve())], theme=THEME, css=CSS)
