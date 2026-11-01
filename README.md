@@ -1,10 +1,14 @@
 # 🎃 Ofrenda of Maybe
 
-**Whisper a future you hope for. A friendly ghost from that future turns it into a short cartoon film, entirely on your own laptop.**
+**Whisper a future you hope for. A friendly ghost from that future turns it into a comic page and a short film, entirely on your own laptop.**
 
 Built for the [Hacktoberfest Open-Source AI Challenge, Week 4: Ghost in the Machine](https://dev.to/challenges/hacktoberfest-week4-2026-10-26).
 
-<!-- Add a screenshot or GIF here: ![demo](docs/demo.gif) -->
+[▶ Watch the 90-second demo](https://youtu.be/D4l4YhNJUKc)
+
+![The app](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/znrpohwvrtgiawni8gys.png)
+
+![The comic page](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/96nditw6re6qbyleot32.png)
 
 ## How it works
 
@@ -14,8 +18,9 @@ flowchart LR
         direction LR
         A["💭 Your wish"] --> B["🧠 Gemma<br/>writes 4 scenes"]
         B --> C["🎨 SD-Turbo<br/>draws them"]
+        C --> G["📖 Comic page<br/>panels + speech bubble"]
         C --> D["🎙️ Piper<br/>narrates"]
-        D --> E["🎬 Cartoon film"]
+        D --> E["🎬 Narrated film"]
         B --> F["🕯️ The ghost's offering:<br/>one small first step"]
     end
 ```
@@ -24,7 +29,8 @@ Scenes 1-3 tell your wish as a cheerful story. Scene 4 is the **ghost**: your fu
 
 ## Features
 
-- 🎬 4-scene cartoon film with captions and slow zoom
+- 📖 A 4-panel **comic page** with captions, a ghost speech bubble and a "to be continued" first step
+- 🎬 The same story as a narrated film with captions and slow zoom
 - 🕯️ "The ghost's offering": one concrete first step
 - 🎙️ 4 narrator voices (storyteller, cheerful, British, ghostly whisper)
 - 👻 Halloween UI: cobwebs, a dangling spider, floating ghosts, a flickering title
